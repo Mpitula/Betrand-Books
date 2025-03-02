@@ -1,20 +1,25 @@
+// Imports
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = requre("cors");
-const bodyParse = requre("body-parser");
+const cors = require("cors");
+const bodyParse = require("body-parser");
 
-const app = express();
-const PORT = 5000;
+const app = express(); //This initializes an Express application.
+const PORT = 5000; //This sets the port number on which the server will listen for incoming requests.
 
 //Middleware
 app.use(cors);
 app.use(bodyParse.json());
 
 //connect to MongoDb
-mongoose.connect("mongodb://localhost:27017/bookstore", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose
+  .connect("mongodb://localhost:27017/bookstore")
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error("Connection error:", err);
+  });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
